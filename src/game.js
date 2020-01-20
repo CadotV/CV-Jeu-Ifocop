@@ -3,17 +3,16 @@
  * @version: 1.0.0
  */
 
+// FIXME add a viewport for resize gameComponents in render
 // CV
 // TODO slow on tablet, blocked on mobile
 // use URI CV
-import { cvBase64 } from '../cvbase64';
 
 // Config
 import { gameConfig, gameDebug, backgroundConfig, enemyConfig, shieldPackConfig } from './config/config';
 
 // Primitives
 import Vector2 from './geometry/vector';
-import Rectangle from './geometry/rectangle';
 
 // GameComponents
 import Player from './game_components/player/player';
@@ -60,8 +59,14 @@ export default function Game(canvas) {
 
   this.buttonShowDebug = false;
 
+  this.buttonArr = [];
+
   this.spawnEnemyTimer = enemyConfig.enemySpeedSpawn;
   this.spawnShieldPackTimer = shieldPackConfig.shieldPackSpeedSpawn;
+
+  // Audio
+  // this.audioAmbient = new Audio("../Ambient-Cave-SoundBible.com-2124899044.mp3");
+  // console.log(this.audioAmbient);
 }
 
 Game.prototype.menuScreen = function () {
@@ -153,50 +158,64 @@ Game.prototype.menuScreen = function () {
 
   this.buttonArr.push(debugButton);
 
-  let rulesButton = {
-    width: 600,
-    height: 0,
-    left: 0,
-    top: 0,
-    img: this.rulesImage,
-    render: function (context) {
-      context.drawImage(
-        this.img,
-        0,
-        this.top,
-        this.width,
-        this.height
-      );
-    },
-    center: function (canvas) {
-      this.left = canvas.width / 2 - this.width / 2;
-      this.top = 500;
-      this.width = canvas.width;
-      this.height = canvas.height - this.top;
-    },
-    click: () => {
-    },
-    hover: () => {
-    }
-  };
+  // let rulesButton = {
+  //   width: 600,
+  //   height: 0,
+  //   left: 0,
+  //   top: 0,
+  //   img: this.rulesImage,
+  //   render: function (context) {
+  //     context.drawImage(
+  //       this.img,
+  //       0,
+  //       this.top,
+  //       this.width,
+  //       this.height
+  //     );
+  //   },
+  //   center: function (canvas) {
+  //     this.left = canvas.width / 2 - this.width / 2;
+  //     this.top = 500;
+  //     this.width = canvas.width;
+  //     this.height = canvas.height - this.top;
+  //   },
+  //   click: () => {
+  //   },
+  //   hover: () => {
+  //   }
+  // };
 
-  this.buttonArr.push(rulesButton);
+  // this.buttonArr.push(rulesButton);
 
-  this.rulesImage.onload = () => {
-    this.buttonArr.forEach(button => {
-      button.center(this.canvas);
-      button.render(this.ctxMenu);
-    })
-  }
+  // this.rulesImage.onload = () => {
+  //   this.buttonArr.forEach(button => {
+  //     button.center(this.canvas);
+  //     button.render(this.ctxMenu);
+  //   })
+  // }
+
+  this.buttonArr.forEach(button => {
+    button.center(this.canvas);
+    button.render(this.ctxMenu);
+  })
 
   this.canvas.buttons = this.buttonArr;
 
   this.canvas.addEventListener('click', buttonClick);
   this.canvas.addEventListener('mouseover', buttonHover);
+
+  // render on resize
+  window.addEventListener('resize', () => {
+    this.buttonArr.forEach(button => {
+      button.center(this.canvas);
+      button.render(this.ctxMenu);
+    })
+  })
 }
 
 /** 
  * TODO Same as startButton - factorise !
+ * TODO render ctx on window resize
  */
 Game.prototype.restartScreen = function () {
   this.ctxMenuRestart.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -250,6 +269,7 @@ Game.prototype.restartScreen = function () {
     showDebug: this.buttonShowDebug,
     render: function (context) {
       if (!this.showDebug) {
+        // TODO when resizing, this.showDebug will be true then false then true, etc...
         this.showDebug = !this.showDebug;
         context.fillStyle = "#372F3F";
         context.fillRect(this.left, this.top, this.width, this.height);
@@ -309,7 +329,8 @@ Game.prototype.restartScreen = function () {
       return (text.length + this.totalScore.toString().length) * 19;
     },
     click: function () {
-      window.open("data:application/pdf;base64, " + cvBase64);
+      // window.open("data:application/pdf;base64, " + cvBase64);
+      window.open("http://valentin-cadot.fr/CV-VC-Ifocop.pdf");
     },
     hover: () => { }
   }
@@ -350,7 +371,15 @@ Game.prototype.restartScreen = function () {
 
   this.canvas.addEventListener('click', buttonClick);
   this.canvas.addEventListener('touchdown', buttonClick);
-  this.canvas.addEventListener('mouseover', buttonHover);
+  this.canvas.addEventListener('mouseover', buttonHover)
+
+  // render on resize
+  window.addEventListener('resize', () => {
+    this.buttonArr.forEach(button => {
+      button.center(this.canvas);
+      button.render(this.ctxMenu);
+    })
+  });
 }
 
 function buttonClick(event) {
@@ -446,11 +475,11 @@ Game.prototype.listener = function () {
   this.canvas.addEventListener('touchmove', touchHandler, false);
 
   // Mouse Listeners
-  this.canvas.addEventListener('mosuedown', mouseHandler, false);
+  this.canvas.addEventListener('mousedown', mouseHandler, true);
   this.canvas.addEventListener('mousemove', mouseHandler, false);
 
   // Add condition if using mobile device
-  
+
 };
 
 // TODO: add focus on canvas to avoid scrolling the document and avoid player leaving the canvas
