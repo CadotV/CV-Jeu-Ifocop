@@ -49,6 +49,10 @@ module.exports = {
                 use: [
                     'xml-loader',
                 ],
+            },
+            {
+                test: /\.mp3$/,
+                loader: 'file-loader'
             }
         ],
     },
