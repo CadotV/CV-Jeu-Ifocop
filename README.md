@@ -1,3 +1,7 @@
-# js-csji2u
+# jeu CV Ifocop
 
-[Edit on StackBlitz ⚡️](https://stackblitz.com/edit/js-csji2u)
+Jeu CV réalisé pour mon premier projet au sein de la formation Ifocop à Paris XI
+
+# Commands
+- npm run start: launch the webpack dev server
+- npm run build: create the minified bundle in /dist
