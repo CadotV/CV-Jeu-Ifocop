@@ -9,17 +9,6 @@
 import Game from './game.js';
 import './style.css';
 
-//add listener for window size
-
-//window.addEventListener('resize', function() {
-//  var windowWidth = window.getComputedStyle(window.innerWidth);
-//  var windowHeight = window.getComputedStyle(window.innerHeight);
-
-//  console.log(windowWidth);
-//  console.log(windowHeight);
-//});
-
-
 var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 if (isMobile) {
     console.log('mobile detected :', navigator.userAgent);
@@ -32,10 +21,8 @@ if (isMobile) {
 function canvasComponent() {
     const canvas = document.createElement('canvas');
     canvas.setAttribute('id', 'gameCanvas');
-    if (isMobile) {
         canvas.setAttribute('width', window.innerWidth);
         canvas.setAttribute('height', window.innerHeight);
-    }
     canvas.innerHTML = `${canvas} / canvas element don't exist, please use a modern web browser :)`;
     return canvas;
 }
@@ -52,11 +39,12 @@ if (isMobile) {
 }
 
 let canvasElement = canvasComponent();
-if (isMobile) {
-    document.body.appendChild(canvasElement);
-} else {
-    document.getElementById('gameDiv').appendChild(canvasElement);
-}
+document.body.appendChild(canvasElement);
+
+window.addEventListener('resize', function() {
+    this.document.getElementById('gameCanvas').setAttribute('width', window.innerWidth);
+    this.document.getElementById('gameCanvas').setAttribute('height', window.innerHeight);
+});
 
 // Instantiate the game
 let game = new Game(canvasElement);
