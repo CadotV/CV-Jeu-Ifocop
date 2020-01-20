@@ -1,0 +1,29 @@
+{
+  "name": "spacewars",
+  "version": "1.0.0",
+  "private": true,
+  "description": "My video game CV made at Ifocop Paris XI in 2020",
+  "author": "Valentin Cadot",
+  "scripts": {
+    "test": "echo \"Error: no test specified! Should us Mocha ?\" && exit 1",
+    "start": "webpack-dev-server --open --config webpack.dev.js --host 0.0.0.0",
+    "build": "webpack --config webpack.prod.js"
+  },
+  "dependencies": {
+    "bootstrap": "^4.4.1",
+    "webpack": "^4.41.2",
+    "webpack-dev-server": "^3.9.0"
+  },
+  "devDependencies": {
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^3.2.1",
+    "csv-loader": "^3.0.2",
+    "file-loader": "^5.0.2",
+    "html-webpack-plugin": "^3.2.0",
+    "jsdoc": "^3.6.3",
+    "style-loader": "^1.0.1",
+    "webpack-cli": "^3.3.10",
+    "webpack-merge": "^4.2.2",
+    "xml-loader": "^1.2.1"
+  }
+}

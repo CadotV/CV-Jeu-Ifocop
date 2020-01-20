@@ -1,0 +1,6 @@
+- définir position pour les objets primitif geometry ? qui reprendrait this.x et this.y
+- baser la vitesse d'un vaisseau sur son aggroRadius ? (petit radius > rapide, grand radius > lent)
+- mettre une vitesse max pour les déplacements. Par défaut, la vitesse dépend de la distance avec lerp
+- dans les fonctions render(), bouger l'update des vector2 dans les objets primitif geometry ?
+- la collision avec les bords bug, parfois le cannon se potitionne à (0, 0)...
+- lorsqu'un ennemie est détruit, ses projectiles aussi car l'ennemie n'est plus référencé et donc le garbage collector efface la var projectileArr qui stock les objets. Sortir le constructeur de projectile et l'incorporer dans game
